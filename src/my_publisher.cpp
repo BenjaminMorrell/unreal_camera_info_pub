@@ -23,6 +23,8 @@ int main(int argc, char** argv)
   cv::Mat frame;
   sensor_msgs::ImagePtr msg;
 
+  int tickCount = 0;
+
   ros::Rate loop_rate(5);
   while (nh.ok())
   {
@@ -30,7 +32,12 @@ int main(int argc, char** argv)
       
     if (!frame.empty())
     {
-      msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8",frame).toImageMsg();
+      std_msgs::Header header;
+      header.seq = ++tickCount;
+      ros::Time timestamp;
+      header.stamp = timestamp.now();
+      header.frame_id = "dummy_frame";
+      msg = cv_bridge::CvImage(header, "bgr8",frame).toImageMsg();
       pub.publish(msg);
       cv::waitKey(1);
     }

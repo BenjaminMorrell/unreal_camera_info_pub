@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project(unreal_camera_info_pub)
 
-find_package(catkin REQUIRED COMPONENTS cv_bridge image_transport sensor_msgs)
+find_package(catkin REQUIRED COMPONENTS cv_bridge image_transport sensor_msgs roscpp)
 
-catkin_package(CATKIN_DEPENDS cv_bridge image_transport sensor_msgs)
+catkin_package(CATKIN_DEPENDS cv_bridge image_transport sensor_msgs roscpp)
 
 find_package(OpenCV)
 
@@ -30,6 +30,7 @@ add_dependencies(camera_info_publisher ${catkin_EXPORTED_TARGETS} ${${PROJECT_NA
 target_link_libraries(camera_info_publisher ${catkin_LIBRARIES})
 # ${OpenCV_LIBRARIES})
 
+
 # Mark executables and/or libraries for installation
 install(TARGETS my_publisher my_subscriber image_converter camera_info_publisher
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
@@ -37,6 +38,3 @@ install(TARGETS my_publisher my_subscriber image_converter camera_info_publisher
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(FILES resized_plugins.xml
-        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
