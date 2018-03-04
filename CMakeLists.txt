@@ -1,15 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project(unreal_camera_info_pub)
 
-find_package(catkin REQUIRED COMPONENTS cv_bridge image_transport message_generation sensor_msgs)
+find_package(catkin REQUIRED COMPONENTS cv_bridge image_transport sensor_msgs)
 
-# add the resized image message
-add_message_files(DIRECTORY msg
-   FILES ResizedImage.msg
-)
-generate_messages(DEPENDENCIES sensor_msgs)
-
-catkin_package(CATKIN_DEPENDS cv_bridge image_transport message_runtime sensor_msgs)
+catkin_package(CATKIN_DEPENDS cv_bridge image_transport sensor_msgs)
 
 find_package(OpenCV)
 
@@ -36,14 +30,8 @@ add_dependencies(camera_info_publisher ${catkin_EXPORTED_TARGETS} ${${PROJECT_NA
 target_link_libraries(camera_info_publisher ${catkin_LIBRARIES})
 # ${OpenCV_LIBRARIES})
 
-# add the plugin example
-add_library(resized_publisher src/manifest.cpp src/resized_publisher.cpp src/resized_subscriber.cpp)
-add_dependencies(resized_publisher ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
-target_link_libraries(resized_publisher ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
-
-
 # Mark executables and/or libraries for installation
-install(TARGETS my_publisher my_subscriber resized_publisher
+install(TARGETS my_publisher my_subscriber image_converter camera_info_publisher
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

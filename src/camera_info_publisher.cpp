@@ -56,7 +56,7 @@ public:
         //Rectification matrix
         msg.R[0] = 1.0;
         msg.R[4] = 1.0;
-        msg.R[9] = 1.0; // Identity matrix
+        msg.R[8] = 1.0; // Identity matrix
         
         //Projection matrix 
         msg.P[0] = 400.13;
