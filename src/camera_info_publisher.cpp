@@ -1,3 +1,4 @@
+#include "boost/bind.hpp"
 #include <ros/ros.h>
 #include <image_transport/image_transport.h>
 #include <camera_info_manager/camera_info_manager.h>
@@ -7,22 +8,26 @@ class CameraInfoPublisher
 {
     ros::NodeHandle nh_;
     image_transport::ImageTransport it_;
-    image_transport::Subscriber image_sub_;
-    ros::Publisher camera_info_pub_; 
+    image_transport::Subscriber image_left_sub_;
+    image_transport::Subscriber image_right_sub_;
+    ros::Publisher camera_left_info_pub_; 
+    ros::Publisher camera_right_info_pub_; 
 
 public:
     CameraInfoPublisher()
         : it_(nh_),
-        image_sub_(it_.subscribe("/camera/left/image_raw",1, &CameraInfoPublisher::imageCb, this))
+        image_left_sub_(it_.subscribe("/camera/left/image_raw",1, boost::bind(&CameraInfoPublisher::imageCb, this, _1, 1))),
+        image_right_sub_(it_.subscribe("/camera/right/image_raw",1, boost::bind(&CameraInfoPublisher::imageCb, this, _1, 0)))
     {
-        camera_info_pub_ = nh_.advertise<sensor_msgs::CameraInfo>("/stereo/left/camera_info",1000);
-    }
+        camera_left_info_pub_ = nh_.advertise<sensor_msgs::CameraInfo>("/stereo/left/camera_info",1000);
+        camera_right_info_pub_ = nh_.advertise<sensor_msgs::CameraInfo>("/stereo/right/camera_info",1000);
+   }
 
     ~CameraInfoPublisher()
     {}
 
     
-    void imageCb(const sensor_msgs::ImageConstPtr& im_msg)
+    void imageCb(const sensor_msgs::ImageConstPtr& im_msg, int id)
     {
         ROS_INFO("In image callback for CameraInfoPublisher");
         // Create camera info message - load from cinfo
@@ -61,12 +66,21 @@ public:
         //Projection matrix 
         msg.P[0] = 400.13;
         msg.P[2] = 200.5;
-        msg.P[3] = 2000.0;
         msg.P[5] = 400.92;
         msg.P[6] = 100.07;
         msg.P[7] = 0.0;
         msg.P[10] = 1.0;
 
+        if (id == 1){
+            // Left camera - no offset
+            msg.P[3] = 0.0;
+        }
+        else {
+            // Right Camera - offset  
+            msg.P[3] = 2000.0;
+        }
+        
+        
         // Binning 
         // msg.binning_x = 0;
         // msg.binning_y = 0;
@@ -77,8 +91,12 @@ public:
 
         ROS_INFO("Image info Message filled");
 
-
-        camera_info_pub_.publish(msg);
+        if (id == 1){
+            camera_left_info_pub_.publish(msg);
+        }
+        else {
+            camera_right_info_pub_.publish(msg);
+        }
 
     }
 };
