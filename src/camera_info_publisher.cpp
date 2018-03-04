@@ -19,8 +19,8 @@ public:
         image_left_sub_(it_.subscribe("/camera/left/image_raw",1, boost::bind(&CameraInfoPublisher::imageCb, this, _1, 1))),
         image_right_sub_(it_.subscribe("/camera/right/image_raw",1, boost::bind(&CameraInfoPublisher::imageCb, this, _1, 0)))
     {
-        camera_left_info_pub_ = nh_.advertise<sensor_msgs::CameraInfo>("/stereo/left/camera_info",1000);
-        camera_right_info_pub_ = nh_.advertise<sensor_msgs::CameraInfo>("/stereo/right/camera_info",1000);
+        camera_left_info_pub_ = nh_.advertise<sensor_msgs::CameraInfo>("/camera/left/camera_info",1000);
+        camera_right_info_pub_ = nh_.advertise<sensor_msgs::CameraInfo>("/camera/right/camera_info",1000);
    }
 
     ~CameraInfoPublisher()
