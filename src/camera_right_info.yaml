@@ -1,6 +1,6 @@
 image_width: 400
 image_height: 200
-camera_name: unreal
+camera_name: unreal_right
 camera_matrix:
   rows: 3
   cols: 3
@@ -17,4 +17,4 @@ rectification_matrix:
 projection_matrix:
   rows: 3
   cols: 4
-  data: [400.13, 0, 200.5, 2000, 0, 400.92, 100.07, 0, 0, 0, 1, 0
+  data: [400.13, 0, 200.5, 2000, 0, 400.92, 100.07, 0, 0, 0, 1, 0]

@@ -1,6 +1,6 @@
 image_width: 400
 image_height: 200
-camera_name: unreal
+camera_name: unreal_left
 camera_matrix:
   rows: 3
   cols: 3

@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project(unreal_camera_info_pub)
 
-find_package(catkin REQUIRED COMPONENTS cv_bridge image_transport sensor_msgs roscpp)
+find_package(catkin REQUIRED COMPONENTS cv_bridge image_transport sensor_msgs roscpp camera_info_manager)
 
-catkin_package(CATKIN_DEPENDS cv_bridge image_transport sensor_msgs roscpp)
+catkin_package(CATKIN_DEPENDS cv_bridge image_transport sensor_msgs camera_info_manager)
 
 find_package(OpenCV)
 
