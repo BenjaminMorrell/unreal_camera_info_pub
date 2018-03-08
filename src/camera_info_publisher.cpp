@@ -29,17 +29,17 @@ public:
         camera_right_info_pub_ = nh_.advertise<sensor_msgs::CameraInfo>("/camera/right/camera_info",1000);
 
         // Initialise left camera
-        std::string camera_name = "unreal_left";
+        std::string camera_name = "cam0";
         //Hard-coded yaml file location - need to update this
-        std::string camera_info_url = "file:///home/bjm/TORQ/gcs_ws/src/unreal_camera_info_pub/src/camera_left_info.yaml";
+        std::string camera_info_url = "file:///home/bjm/TORQ/gcs_ws/src/unreal_camera_info_pub/src/euroc_cam0_info.yaml";
         cinfo_l_.setCameraName(camera_name);
         cinfo_l_.validateURL(camera_info_url);
         cinfo_l_.loadCameraInfo(camera_info_url);
 
         // Initialise right camera
-        camera_name = "unreal_right";
+        camera_name = "cam1";
         //Hard-coded yaml file location - need to update this
-		camera_info_url = "file:///home/bjm/TORQ/gcs_ws/src/unreal_camera_info_pub/src/camera_right_info.yaml";
+		camera_info_url = "file:///home/bjm/TORQ/gcs_ws/src/unreal_camera_info_pub/src/euroc_cam1_info.yaml";
 		cinfo_r_.setCameraName(camera_name);
 		cinfo_r_.validateURL(camera_info_url);
 		cinfo_r_.loadCameraInfo(camera_info_url);
