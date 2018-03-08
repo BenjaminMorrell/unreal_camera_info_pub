@@ -1,0 +1,20 @@
+image_width: 400
+image_height: 200
+camera_name: unreal_left
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [400.13, 0, 200.5, 0, 400.92, 100.07, 0, 0, 1]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [0, 0, 0, 0, 0]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [400.13, 0, 200.5, 0, 0, 400.92, 100.07, 0, 0, 0, 1, 0]

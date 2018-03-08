@@ -30,8 +30,8 @@ public:
     {}
 
     void setup(void){
-
-        std::string url = "/home/bjm/Development/voxblox_ws/src/image_transport_tutorial/src/camera_left_info.yaml";
+        
+        std::string url = "package://unreal_camera_info_pub/camera_left_info.yaml";
 
         if (cinfo_->validateURL(url)){
             cinfo_->loadCameraInfo(url);
