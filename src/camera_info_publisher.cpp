@@ -30,16 +30,16 @@ public:
 
         // Initialise left camera
         std::string camera_name = "unreal_left";
-        //Hard-coded yaml file location - need to update this
-        std::string camera_info_url = "file:///home/bjm/TORQ/gcs_ws/src/unreal_camera_info_pub/src/camera_left_info.yaml";
+        
+        std::string camera_info_url = "package://unreal_camera_info_pub/camera_left_info.yaml";
         cinfo_l_.setCameraName(camera_name);
         cinfo_l_.validateURL(camera_info_url);
         cinfo_l_.loadCameraInfo(camera_info_url);
 
         // Initialise right camera
         camera_name = "unreal_right";
-        //Hard-coded yaml file location - need to update this
-		camera_info_url = "file:///home/bjm/TORQ/gcs_ws/src/unreal_camera_info_pub/src/camera_right_info.yaml";
+        
+		camera_info_url = "package://unreal_camera_info_pub/camera_right_info.yaml";
 		cinfo_r_.setCameraName(camera_name);
 		cinfo_r_.validateURL(camera_info_url);
 		cinfo_r_.loadCameraInfo(camera_info_url);
