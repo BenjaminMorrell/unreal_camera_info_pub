@@ -35,6 +35,11 @@ add_executable(camera_info_publisher_rgbd src/camera_info_publisher_rgbd.cpp)
 add_dependencies(camera_info_publisher_rgbd ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
 target_link_libraries(camera_info_publisher_rgbd ${catkin_LIBRARIES})
 
+# Depth image republisher
+add_executable(depth_image_republisher src/depth_image_republish.cpp)
+add_dependencies(depth_image_republisher ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
+target_link_libraries(depth_image_republisher ${catkin_LIBRARIES})
+
 
 # Mark executables and/or libraries for installation
 install(TARGETS my_publisher my_subscriber image_converter camera_info_publisher camera_info_publisher_rgbd
