@@ -18,7 +18,7 @@ class CameraInfoPublisher
     camera_info_manager::CameraInfoManager cinfo_r_;
 
 public:
-    CameraInfoPublisher()
+    CameraInfoPublisher(int argc, char** argv)
         : it_(nh_),
         image_left_sub_(it_.subscribe("/camera/left/image_raw",1, boost::bind(&CameraInfoPublisher::imageCb, this, _1, 1))),
         image_right_sub_(it_.subscribe("/camera/right/image_raw",1, boost::bind(&CameraInfoPublisher::imageCb, this, _1, 0))),
@@ -31,15 +31,30 @@ public:
         // Initialise left camera
         std::string camera_name = "unreal_left";
         
-        std::string camera_info_url = "package://unreal_camera_info_pub/cfg/camera_left_info.yaml";
+        int option = 0;
+        if (argc > 1){
+            option = atoi(argv[1]);
+        }
+
+        std::string camera_info_url;
+        if (option == 0){
+            camera_info_url = "package://unreal_camera_info_pub/cfg/camera_left_info.yaml";
+        }else{
+            camera_info_url = "package://unreal_camera_info_pub/cfg/camera_left_info_high_res.yaml";
+        }
+         
         cinfo_l_.setCameraName(camera_name);
         cinfo_l_.validateURL(camera_info_url);
         cinfo_l_.loadCameraInfo(camera_info_url);
 
         // Initialise right camera
         camera_name = "unreal_right";
-        
-		camera_info_url = "package://unreal_camera_info_pub/cfg/camera_right_info.yaml";
+        if (option == 0){
+            camera_info_url = "package://unreal_camera_info_pub/cfg/camera_right_info.yaml";
+        }else{
+            camera_info_url = "package://unreal_camera_info_pub/cfg/camera_right_info_high_res.yaml";
+        }
+		
 		cinfo_r_.setCameraName(camera_name);
 		cinfo_r_.validateURL(camera_info_url);
 		cinfo_r_.loadCameraInfo(camera_info_url);
@@ -87,7 +102,7 @@ public:
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "camera_info_publisher");
-    CameraInfoPublisher ic;
+    CameraInfoPublisher ic(argc, argv);
     ROS_INFO("completed initialisation");
     ros::spin();
     return 0;
