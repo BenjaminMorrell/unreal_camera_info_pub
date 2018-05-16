@@ -30,9 +30,14 @@ add_dependencies(camera_info_publisher ${catkin_EXPORTED_TARGETS} ${${PROJECT_NA
 target_link_libraries(camera_info_publisher ${catkin_LIBRARIES})
 # ${OpenCV_LIBRARIES})
 
+# camera info publisher rgbd
+add_executable(camera_info_publisher_rgbd src/camera_info_publisher_rgbd.cpp)
+add_dependencies(camera_info_publisher_rgbd ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
+target_link_libraries(camera_info_publisher_rgbd ${catkin_LIBRARIES})
+
 
 # Mark executables and/or libraries for installation
-install(TARGETS my_publisher my_subscriber image_converter camera_info_publisher
+install(TARGETS my_publisher my_subscriber image_converter camera_info_publisher camera_info_publisher_rgbd
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
