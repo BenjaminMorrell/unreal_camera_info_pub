@@ -3,7 +3,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/image_encodings.h>
 #include <opencv2/imgproc/imgproc.hpp>
-
+#include <opencv2/highgui/highgui.hpp>
 
 
 class ImageConverter
@@ -29,11 +29,10 @@ public:
 
   void imageCb(const sensor_msgs::ImageConstPtr& msg)
   {
-    cv_bridge::CvImageConstPtr cv_ptr;
+    cv_bridge::CvImagePtr cv_ptr;
     try
     {
-      // cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::CV_16UC1);
-      cv_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::MONO8);
+      cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::TYPE_32FC1);
     }
     catch (cv_bridge::Exception& e)
     {
@@ -41,26 +40,31 @@ public:
       return;
     }
 
-    try
-    {
-      // cv_ptr = cv_bridge::toCvShare(cv_ptr->toImageMsg(), sensor_msgs::image_encodings::TYPE_32FC1);
-      cv_ptr = cv_bridge::toCvShare(cv_ptr->toImageMsg(), sensor_msgs::image_encodings::TYPE_16UC1);
-    }
-    catch (cv_bridge::Exception& e)
-    {
-      ROS_ERROR("cv_bridge exception when trying to convert: %s", e.what());
-      return;
-    }
+    double min;
+    double max;
+    cv::minMaxIdx(cv_ptr->image, &min, &max);
 
-    
-    // Output modified image
+    std::cout << "Max is: " << max << ", min is: " << min << std::endl;
+
+    cv::convertScaleAbs(cv_ptr->image, cv_ptr->image, 255.0 / max);
+
+    cv::minMaxIdx(cv_ptr->image, &min, &max);
+
+    std::cout << "After scaling:\nMax is: " << max << ", min is: " << min << std::endl;
+    // cv::imshow("Out", adjMap);
+
+    // Update GUI Window
+    // cv::imshow(OPENCV_WINDOW, cv_ptr->image);
+    // cv::waitKey(3);
+
+    // Output modified video stream
     image_pub_.publish(cv_ptr->toImageMsg());
   }
 };
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "depth_image_converter");
+  ros::init(argc, argv, "image_convert_viewer");
   ImageConverter ic;
   ros::spin();
   return 0;

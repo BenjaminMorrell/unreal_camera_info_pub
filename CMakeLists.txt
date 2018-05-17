@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project(unreal_camera_info_pub)
 
-find_package(catkin REQUIRED COMPONENTS cv_bridge image_transport sensor_msgs roscpp camera_info_manager)
+find_package(catkin REQUIRED COMPONENTS cv_bridge image_transport sensor_msgs roscpp camera_info_manager std_msgs)
 
-catkin_package(CATKIN_DEPENDS cv_bridge image_transport sensor_msgs camera_info_manager)
+catkin_package(CATKIN_DEPENDS cv_bridge image_transport sensor_msgs camera_info_manager std_msgs)
 
 find_package(OpenCV)
 
@@ -39,6 +39,12 @@ target_link_libraries(camera_info_publisher_rgbd ${catkin_LIBRARIES})
 add_executable(depth_image_republisher src/depth_image_republish.cpp)
 add_dependencies(depth_image_republisher ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
 target_link_libraries(depth_image_republisher ${catkin_LIBRARIES})
+
+# Depth image viewer
+add_executable(depth_image_viewer src/image_viewer.cpp)
+add_dependencies(depth_image_viewer ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
+target_link_libraries(depth_image_viewer ${catkin_LIBRARIES})
+
 
 
 # Mark executables and/or libraries for installation

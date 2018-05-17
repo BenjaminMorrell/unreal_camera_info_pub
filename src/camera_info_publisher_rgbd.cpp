@@ -18,7 +18,7 @@ class CameraInfoPublisher
 public:
     CameraInfoPublisher(int argc, char** argv)
         : it_(nh_),
-        image_left_sub_(it_.subscribe("/camera/depth_registered/image",1, boost::bind(&CameraInfoPublisher::imageCb, this, _1, 1))),
+        image_left_sub_(it_.subscribe("/camera/depth_registered/image_raw",1, boost::bind(&CameraInfoPublisher::imageCb, this, _1, 1))),
 		cinfo_l_(nh_)
 	{
         camera_left_info_pub_ = nh_.advertise<sensor_msgs::CameraInfo>("/camera/depth_registered/camera_info",1000);
