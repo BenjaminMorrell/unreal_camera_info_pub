@@ -33,7 +33,7 @@ public:
     try
     {
       // cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::CV_16UC1);
-      cv_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::MONO16);
+      cv_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::TYPE_32FC1);
     }
     catch (cv_bridge::Exception& e)
     {
@@ -41,16 +41,16 @@ public:
       return;
     }
 
-    try
-    {
-      // cv_ptr = cv_bridge::toCvShare(cv_ptr->toImageMsg(), sensor_msgs::image_encodings::TYPE_32FC1);
-      cv_ptr = cv_bridge::toCvShare(cv_ptr->toImageMsg(), sensor_msgs::image_encodings::TYPE_16UC1);
-    }
-    catch (cv_bridge::Exception& e)
-    {
-      ROS_ERROR("cv_bridge exception when trying to convert: %s", e.what());
-      return;
-    }
+    // try
+    // {
+    //   cv_ptr = cv_bridge::toCvShare(cv_ptr->toImageMsg(), sensor_msgs::image_encodings::TYPE_32FC1);
+    //   // cv_ptr = cv_bridge::toCvShare(cv_ptr->toImageMsg(), sensor_msgs::image_encodings::TYPE_16UC1);
+    // }
+    // catch (cv_bridge::Exception& e)
+    // {
+    //   ROS_ERROR("cv_bridge exception when trying to convert: %s", e.what());
+    //   return;
+    // }
 
     
     // Output modified image
